@@ -10,6 +10,11 @@ import UIKit
 
 class TrackCell: UITableViewCell {
 
+    @IBOutlet weak var trackLabel: UILabel!
+    @IBOutlet weak var artistLabel: UILabel!
+    
+    private var track: Spotify.Track?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -20,5 +25,13 @@ class TrackCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    func setTrack(_ track: Spotify.Track) {
+        self.track = track
+        trackLabel.text = track.name
+        artistLabel.text = track.getArtistsAsString()
+    }
 
 }
+
+

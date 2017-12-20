@@ -1,0 +1,18 @@
+PODS:
+  - Alamofire (4.5.1)
+  - SwiftKeychainWrapper (3.0.1)
+  - SwiftyJSON (4.0.0)
+
+DEPENDENCIES:
+  - Alamofire
+  - SwiftKeychainWrapper
+  - SwiftyJSON
+
+SPEC CHECKSUMS:
+  Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
+  SwiftKeychainWrapper: 38952a3636320ae61bad3513cadd870929de7a4a
+  SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
+
+PODFILE CHECKSUM: 63ebfe21dc2a533e39de3fe9202e3eae20442764
+
+COCOAPODS: 1.3.1

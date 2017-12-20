@@ -15,6 +15,10 @@ class SearchViewController: UIViewController {
     
     @IBOutlet weak var searchField: UITextField!
     var tracks = [Spotify.Track]()
+    var selectedTrack: Spotify.Track?
+    
+    @IBOutlet weak var saveButton: UIBarButtonItem!
+    
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -23,21 +27,11 @@ class SearchViewController: UIViewController {
         self.searchField.becomeFirstResponder()
         self.tableView.delegate = self
         self.tableView.dataSource = self
+        saveButton.isEnabled = false
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-    }
-    
-    @IBAction func apiButtonPressed(_ sender: UIButton) {
-        Spotify.instance.getCurrentlyPlayingInformation(notifyWhenDone: self)
-//        Alamofire.request("https://api.spotify.com/v1/search?type=track&q=more+than+you+know").response { response in
-//            print(response)
-//        }
-    }
-    
-    @IBAction func clearButtonPressed(_ sender: UIButton) {
-        KeychainWrapper.standard.removeObject(forKey: "AuthToken")
     }
     
     @IBAction func searchButtonPressed(_ sender: Any) {
@@ -45,9 +39,12 @@ class SearchViewController: UIViewController {
         Spotify.instance.search(for: searchField.text!, completionHandler: { tracks in
             self.tracks = tracks
             self.tableView.reloadData()
-            
         })
     }
+    @IBAction func backButtonPressed(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
 }
 
 extension SearchViewController: Observer {
@@ -65,6 +62,11 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TrackCell") as! TrackCell
        cell.setTrack(tracks[indexPath.row])
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        saveButton.isEnabled = true
+        self.selectedTrack = self.tracks[indexPath.row]
     }
 }
 

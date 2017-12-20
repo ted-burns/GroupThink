@@ -10,11 +10,46 @@ import UIKit
 
 class DetailViewController: UIViewController {
 
+    var track: Spotify.Track!
+    var suggestedTracks: [Spotify.Track]!
+    var allRelatedTracks = [Spotify.Track]()
+    var numberOfRelatedArtists = 0
+    var timesTracksAdded = 0
+    
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var songNameLabel: UILabel!
+    @IBOutlet weak var songArtistLabel: UILabel!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        self.suggestedTracks = [Spotify.Track]()
+        
+        self.songNameLabel.text = self.track.name
+        self.songArtistLabel.text = self.track.getArtistsAsString()
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+        Spotify.instance.getRecommendations(for: self.track, completionHandler: { tracks in
+            self.suggestedTracks = tracks
+            self.tableView.reloadData()
+        })
+        
     }
+    
+    
+    func addRelatedArtists(_ num: Int) {
+        self.numberOfRelatedArtists += num
+    }
+    
+    func analyzeRelatedTracks() {
+        print("analyzing!")
+    }
+    
+    
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -31,5 +66,23 @@ class DetailViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    @IBAction func exportPressed(_ sender: UIButton) {
+        Spotify.instance.addPlaylist(with: self.suggestedTracks, basedOn: self.track)
+    }
+    
+}
+
+extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return suggestedTracks.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TrackCell") as! TrackCell
+        cell.setTrack(self.suggestedTracks[indexPath.row])
+        return cell 
+    }
+    
 
 }
