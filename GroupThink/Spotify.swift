@@ -62,11 +62,11 @@ class Spotify {
     
     //MARK: Related variables
     private let requestedScopes: [Spotify.Scope] = [
-        .readUserPlaybackState,
-        .writeUserPlaybackState,
-        .readUserLibrary,
-        .readPrivatePlaylists,
-        .writePrivatePlaylists,
+//        .readUserPlaybackState,
+//        .writeUserPlaybackState,
+//        .readUserLibrary,
+//        .readPrivatePlaylists,
+//        .writePrivatePlaylists,
     ]
     
     
